@@ -327,6 +327,10 @@ class Condition(object):
             item.approve()
         elif self.action == 'report':
             item.report()
+        elif self.action == 'upvote':
+            item.upvote()
+        elif self.action == 'downvote':
+            item.downvote()
 
         # set flairs
         if (isinstance(item, praw.objects.Submission) and 
@@ -337,10 +341,23 @@ class Condition(object):
             item.link_flair_text = text
             item.link_flair_css_class = css_class.lower()
             log_actions.append('link_flair')
-        if (self.user_flair_text or self.user_flair_class):
+        if (self.user_flair_text):
             text = replace_placeholders(self.user_flair_text, item, match)
             css_class = replace_placeholders(self.user_flair_class, item, match)
-            item.subreddit.set_flair(item.author, text, css_class.lower())
+            if item.author_flair_css_class == '':
+                item.subreddit.set_flair(item.author, text, '')
+            else:
+                item.subreddit.set_flair(item.author, text, item.author_flair_css_class)
+            item.author_flair_text = text
+            item.author_flair_css_class = css_class.lower()
+            log_actions.append('user_flair')
+        if (self.user_flair_class):
+            text = replace_placeholders(self.user_flair_text, item, match)
+            css_class = replace_placeholders(self.user_flair_class, item, match)
+            if item.author_flair_text == '':
+                item.subreddit.set_flair(item.author, '', css_class.lower())
+            else:
+                item.subreddit.set_flair(item.author, item.author_flair_text, css_class.lower())
             item.author_flair_text = text
             item.author_flair_css_class = css_class.lower()
             log_actions.append('user_flair')
@@ -760,6 +777,8 @@ def replace_placeholders(string, item, match):
     else:
         string = string.replace('{{body}}', item.selftext)
         string = string.replace('{{kind}}', 'submission')
+    string = string.replace('{{author_flair_css_class}}', item.author_flair_css_class)
+    string = string.replace('{{author_flair_text}}', item.author_flair_text)
     string = string.replace('{{domain}}', getattr(item, 'domain', ''))
     string = string.replace('{{permalink}}', get_permalink(item))
     string = string.replace('{{subreddit}}', item.subreddit.display_name)
@@ -919,8 +938,11 @@ def check_conditions(subreddit, item, conditions, stop_after_match=False):
                 isinstance(item, praw.objects.Submission) and
                 (item.link_flair_text or item.link_flair_css_class)):
             continue
-        if ((condition.user_flair_text or condition.user_flair_class) and
-                (item.author_flair_text or item.author_flair_css_class)):
+        if ((condition.user_flair_text) and
+                (item.author_flair_text)):
+            continue
+        if ((condition.user_flair_class) and
+                (item.author_flair_css_class)):
             continue
 
         try:
