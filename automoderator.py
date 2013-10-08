@@ -327,10 +327,6 @@ class Condition(object):
             item.approve()
         elif self.action == 'report':
             item.report()
-        elif self.action == 'upvote':
-            item.upvote()
-        elif self.action == 'downvote':
-            item.downvote()
 
         # set flairs
         if (isinstance(item, praw.objects.Submission) and 
@@ -531,7 +527,7 @@ def check_condition_valid(cond):
     validate_type(cond, 'message', basestring)
     validate_type(cond, 'message_subject', basestring)
 
-    validate_value_in(cond, 'action', ('approve', 'remove', 'spam', 'report', 'upvote', 'downvote'))
+    validate_value_in(cond, 'action', ('approve', 'remove', 'spam', 'report'))
     validate_value_in(cond, 'type', ('submission', 'comment', 'both'))
 
     validate_modifiers(cond)
