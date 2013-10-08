@@ -531,7 +531,7 @@ def check_condition_valid(cond):
     validate_type(cond, 'message', basestring)
     validate_type(cond, 'message_subject', basestring)
 
-    validate_value_in(cond, 'action', ('approve', 'remove', 'spam', 'report'))
+    validate_value_in(cond, 'action', ('approve', 'remove', 'spam', 'report', 'upvote', 'downvote'))
     validate_value_in(cond, 'type', ('submission', 'comment', 'both'))
 
     validate_modifiers(cond)
