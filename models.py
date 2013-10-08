@@ -79,8 +79,6 @@ class Log(Base):
     action = Column(Enum('approve',
                          'remove',
                          'report',
-                         'upvote',
-                         'downvote',
                          'link_flair',
                          'user_flair',
                          name='log_action'))
