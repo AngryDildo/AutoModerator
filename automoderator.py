@@ -1182,6 +1182,7 @@ def main():
             break
         except Exception as e:
             logging.error('ERROR: {0}'.format(e))
+        sleep(20)
 
     reports_mins = int(cfg_file.get('reddit', 'reports_check_period_mins'))
     reports_check_period = timedelta(minutes=reports_mins)
