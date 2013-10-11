@@ -1169,7 +1169,7 @@ def main():
 
     while True:
         try:
-			sleep(20)
+            sleep(20)
             r = praw.Reddit(user_agent=cfg_file.get('reddit', 'user_agent'))
             logging.info('Logging in as {0}'
                          .format(cfg_file.get('reddit', 'username')))
