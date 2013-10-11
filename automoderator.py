@@ -340,8 +340,8 @@ class Condition(object):
         if (self.user_flair_text):
             text = replace_placeholders(self.user_flair_text, item, match)
             css_class = replace_placeholders(self.user_flair_class, item, match)
-            if item.author_flair_css_class == '':
-                item.subreddit.set_flair(item.author, text, '')
+            if not item.author_flair_css_class:
+                item.subreddit.set_flair(item.author, text, None)
             else:
                 item.subreddit.set_flair(item.author, text, item.author_flair_css_class)
             item.author_flair_text = text
@@ -349,8 +349,8 @@ class Condition(object):
         if (self.user_flair_class):
             text = replace_placeholders(self.user_flair_text, item, match)
             css_class = replace_placeholders(self.user_flair_class, item, match)
-            if item.author_flair_text == '':
-                item.subreddit.set_flair(item.author, '', css_class.lower())
+            if not item.author_flair_text:
+                item.subreddit.set_flair(item.author, None, css_class.lower())
             else:
                 item.subreddit.set_flair(item.author, item.author_flair_text, css_class.lower())
             item.author_flair_css_class = css_class.lower()
