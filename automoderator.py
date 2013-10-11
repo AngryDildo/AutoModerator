@@ -932,12 +932,6 @@ def check_conditions(subreddit, item, conditions, stop_after_match=False):
                 isinstance(item, praw.objects.Submission) and
                 (item.link_flair_text or item.link_flair_css_class)):
             continue
-        if ((condition.user_flair_text) and
-                (item.author_flair_text)):
-            continue
-        if ((condition.user_flair_class) and
-                (item.author_flair_css_class)):
-            continue
 
         try:
             start_time = time()
