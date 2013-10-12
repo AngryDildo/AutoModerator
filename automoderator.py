@@ -339,22 +339,20 @@ class Condition(object):
             log_actions.append('link_flair')
         if (self.user_flair_text):
             text = replace_placeholders(self.user_flair_text, item, match)
-            css_class = replace_placeholders(self.user_flair_class, item, match)
             if not item.author_flair_css_class:
                 item.subreddit.set_flair(item.author, text, '')
             else:
                 item.subreddit.set_flair(item.author, text, item.author_flair_css_class)
             item.author_flair_text = text
-            log_actions.append('user_flair')
+            log_actions.append('user_flair_text')
         if (self.user_flair_class):
-            text = replace_placeholders(self.user_flair_text, item, match)
             css_class = replace_placeholders(self.user_flair_class, item, match)
             if not item.author_flair_text:
                 item.subreddit.set_flair(item.author, '', css_class.lower())
             else:
                 item.subreddit.set_flair(item.author, item.author_flair_text, css_class.lower())
             item.author_flair_css_class = css_class.lower()
-            log_actions.append('user_flair')
+            log_actions.append('user_flair_css')
 
         if self.comment:
             comment = self.build_message(self.comment, item, match,
