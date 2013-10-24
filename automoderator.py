@@ -769,8 +769,8 @@ def replace_placeholders(string, item, match):
     else:
         string = string.replace('{{body}}', item.selftext)
         string = string.replace('{{kind}}', 'submission')
-    string = string.replace('{{author_flair_css_class}}', item.author_flair_css_class or 'no flair css')
-    string = string.replace('{{author_flair_text}}', item.author_flair_text or 'no flair text')
+    string = string.replace('{{author_flair_css_class}}', item.author_flair_css_class or 'none')
+    string = string.replace('{{author_flair_text}}', item.author_flair_text or 'none')
     string = string.replace('{{domain}}', getattr(item, 'domain', ''))
     string = string.replace('{{permalink}}', get_permalink(item))
     string = string.replace('{{subreddit}}', item.subreddit.display_name)
